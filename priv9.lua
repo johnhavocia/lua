@@ -80,14 +80,16 @@ getgenv().library = {
 
 local themes = {
     preset = {
-        outline = rgb(10, 10, 10),
-        inline = rgb(35, 35, 35),
-        text = rgb(180, 180, 180),
+        -- core UI colors (dark base)
+        outline = rgb(8, 8, 12),
+        inline = rgb(25, 25, 35),
+        text = rgb(210, 210, 220),
         text_outline = rgb(0, 0, 0),
-        background = rgb(20, 20, 20),
-        ["1"] = hex("#245771"), 
-        ["2"] = hex("#215D63"),
-        ["3"] = hex("#1E6453"),
+        background = rgb(12, 12, 18),
+        -- accent colors (purple variants, used for sections/controls 1-3)
+        ["1"] = hex("#7B3FFF"), -- bright purple
+        ["2"] = hex("#5A2EB0"), -- mid purple
+        ["3"] = hex("#3A1E70"), -- dark purple
     },
 
     utility = {
