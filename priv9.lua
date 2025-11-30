@@ -1,4 +1,5 @@
-
+-- Hi finobe here, this got leaked cuz i had a polish nazi (??) customer who tried leaking personal info about me for whatever reason??
+-- Anyways I fixed the code up so if you're using the other one on my github then use this one instead
 
 -- Variables 
     local uis = game:GetService("UserInputService") 
@@ -217,12 +218,12 @@
             
             local ProggyTiny = Register_Font("Tahoma", 200, "Normal", {
                 Id = "Tahoma.ttf",
-                Font = game:HttpGet("https://github.com/johnhavocia/storage/raw/refs/heads/main/fonts/tahoma_bold.ttf"),
+                Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/tahoma_bold.ttf"),
             })
 
             local ProggyClean = Register_Font("ProggyClean", 200, "normal", {
                 Id = "ProggyClean.ttf",
-                Font = game:HttpGet("https://github.com/johnhavocia/storage/raw/refs/heads/main/fonts/ProggyClean.ttf")
+                Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/ProggyClean.ttf")
             })
             
             fonts = {
