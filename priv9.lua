@@ -581,7 +581,6 @@ local config_flags = library.config_flags
             
             -- solid-color main window background using theme background
             window_outline.BackgroundColor3 = themes.preset.background
-            library:apply_theme(window_outline, "background", "BackgroundColor3")
             
             local tab_button_holder = library:create("Frame", {
                 AnchorPoint = vec2(0, 1);
