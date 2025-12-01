@@ -83,16 +83,16 @@ getgenv().library = {
 
 local themes = {
     preset = {
-        -- dark theme with a single purple accent used everywhere
-        outline = rgb(14, 10, 26),
-        inline = rgb(24, 20, 38),
-        text = rgb(230, 230, 240),
+        -- minimal dark theme: neutral dark greys + single purple accent
+        outline      = rgb(32, 32, 36),   -- subtle border / outlines
+        inline       = rgb(20, 20, 24),   -- inner panels / cards
+        text         = rgb(235, 235, 240),
         text_outline = rgb(0, 0, 0),
-        background = rgb(8, 6, 16),
-        -- single accent for all accent slots (sections, toggles, etc.)
-        ["1"] = hex("#A855F7"), -- purple accent
-        ["2"] = hex("#A855F7"),
-        ["3"] = hex("#A855F7"),
+        background   = rgb(10, 10, 12),   -- main background (almost black)
+        -- single purple accent reused everywhere (tabs, sections, toggles, sliders)
+        ["1"] = hex("#8B5CF6"),
+        ["2"] = hex("#8B5CF6"),
+        ["3"] = hex("#8B5CF6"),
     },
 
     utility = {
@@ -508,8 +508,8 @@ local config_flags = library.config_flags
         end
         
         if instance == "TextLabel" or instance == "TextButton" or instance == "TextBox" then 	
+            -- modern minimal: rely on flat text color, no heavy stroke outline
             library:apply_theme(ins, "text", "TextColor3")
-            library:apply_stroke(ins)
         end
         
         return ins 
