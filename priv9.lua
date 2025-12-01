@@ -951,8 +951,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                 ClipsDescendants = true;
                 BorderColor3 = rgb(0, 0, 0);
                 BorderSizePixel = 0;
-                BackgroundColor3 = themes.preset[tostring(self.count)]
-            }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3"); library:corner(accent, 6)
+                -- minimal sections: neutral dark grey instead of purple accent
+                BackgroundColor3 = rgb(24, 24, 24)
+            }); library:corner(accent, 6)
 
             local dark = library:create("Frame", {
                 Parent = accent;
