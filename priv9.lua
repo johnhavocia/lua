@@ -1,3 +1,6 @@
+-- Hi finobe here, this got leaked cuz i had a polish nazi (??) customer who tried leaking personal info about me for whatever reason??
+-- Anyways I fixed the code up so if you're using the other one on my github then use this one instead
+
 -- Variables 
 local uis = game:GetService("UserInputService") 
 local players = game:GetService("Players") 
@@ -80,16 +83,16 @@ getgenv().library = {
 
 local themes = {
     preset = {
-        -- core UI colors (all near-black / gray)
-        outline = rgb(5, 5, 5),      -- outer borders
-        inline  = rgb(15, 15, 15),   -- inner panels / fills
-        text   = rgb(220, 220, 220), -- light gray text
+        -- Dark theme with a modern purple accent
+        outline = rgb(15, 15, 20),
+        inline = rgb(25, 25, 35),
+        text = rgb(220, 220, 230),
         text_outline = rgb(0, 0, 0),
-        background  = rgb(0, 0, 0),  -- main background
-        -- accent colors (purple, used only where explicitly themed as 1/2/3)
-        ["1"] = hex("#7B3FFF"), -- primary purple accent
-        ["2"] = hex("#7B3FFF"), -- same accent for consistency
-        ["3"] = hex("#7B3FFF"), -- same accent for consistency
+        background = rgb(10, 10, 15),
+        -- Use a single accent color so all gradients render as a solid color
+        ["1"] = hex("#9b5cff"), 
+        ["2"] = hex("#9b5cff"),
+        ["3"] = hex("#9b5cff"),
     },
 
     utility = {
@@ -217,12 +220,12 @@ local config_flags = library.config_flags
         
         local ProggyTiny = Register_Font("Tahoma", 200, "Normal", {
             Id = "Tahoma.ttf",
-            Font = game:HttpGet("https://github.com/johnhavocia/storage/raw/refs/heads/main/fonts/tahoma_bold.ttf"),
+            Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/tahoma_bold.ttf"),
         })
 
         local ProggyClean = Register_Font("ProggyClean", 200, "normal", {
             Id = "ProggyClean.ttf",
-            Font = game:HttpGet("https://github.com/johnhavocia/storage/raw/refs/heads/main/fonts/ProggyClean.ttf")
+            Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/ProggyClean.ttf")
         })
         
         fonts = {
@@ -545,7 +548,7 @@ local config_flags = library.config_flags
                 BorderColor3 = rgb(0, 0, 0);
                 Size = cfg.size;
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(255, 255, 255)
+                BackgroundColor3 = themes.preset.background
             });
             window_outline.Position = dim2(0, window_outline.AbsolutePosition.Y, 0, window_outline.AbsolutePosition.Y)
             cfg.main_outline = window_outline
@@ -555,12 +558,12 @@ local config_flags = library.config_flags
             
             local title_holder = library:create("Frame", {
                 Parent = window_outline;
-                BackgroundTransparency = 0.800000011920929;
+                BackgroundTransparency = 0.1;
                 Position = dim2(0, 2, 0, 2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
+                BackgroundColor3 = themes.preset.inline
             });
             
             local ui_title = library:create("TextLabel", {
@@ -576,15 +579,24 @@ local config_flags = library.config_flags
                 BackgroundColor3 = rgb(255, 255, 255)
             });
             
+            library.gradient = library:create("UIGradient", {
+                Color = rgbseq{
+                    rgbkey(0, themes.preset["1"]), 
+                    rgbkey(0.5, themes.preset["2"]),
+                    rgbkey(1, themes.preset["3"]),
+                };
+                Parent = window_outline
+            });
+            
             local tab_button_holder = library:create("Frame", {
                 AnchorPoint = vec2(0, 1);
                 Parent = window_outline;
-                BackgroundTransparency = 0.800000011920929;
+                BackgroundTransparency = 0.1;
                 Position = dim2(0, 2, 1, -2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
+                BackgroundColor3 = themes.preset.inline
             }); cfg.tab_button_holder = tab_button_holder
             
             library:create("UIListLayout", {
@@ -630,12 +642,12 @@ local config_flags = library.config_flags
             -- Page
                 local Page = library:create("Frame", {
                     Parent = self.main_outline;
-                    BackgroundTransparency = 0.6;
+                    BackgroundTransparency = 0.1;
                     Position = dim2(0, 2, 0, 24);
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -4, 1, -48);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(0, 0, 0),
+                    BackgroundColor3 = themes.preset.inline,
                     Visible = false,
                 }); cfg.page = Page
                 
@@ -735,7 +747,7 @@ local config_flags = library.config_flags
                 Size = dim2(0, 0, 0, 24);
                 BorderSizePixel = 0;
                 AutomaticSize = Enum.AutomaticSize.X;
-                BackgroundColor3 = rgb(255, 255, 255)
+                BackgroundColor3 = themes.preset.outline
             });
             
             local dark = library:create("Frame", {
@@ -808,7 +820,7 @@ local config_flags = library.config_flags
                 Size = dim2(0, 0, 0, 24);
                 BorderSizePixel = 0;
                 AutomaticSize = Enum.AutomaticSize.X;
-                BackgroundColor3 = rgb(255, 255, 255)
+                BackgroundColor3 = themes.preset.outline
             }); library.watermark_outline = outline; library:draggify(outline);
             
             local dark = library:create("Frame", {
@@ -883,7 +895,7 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
     function library:column(properties)
         self.count += 1
 
-        local cfg = {color = themes.preset[tostring(self.count)], count = self.count} 
+        local cfg = {color = library.gradient.Color.Keypoints[self.count].Value, count = self.count} 
 
         local scrolling_frame = library:create("ScrollingFrame", {
             ScrollBarImageColor3 = rgb(0, 0, 0);
@@ -1769,6 +1781,11 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    library:create("UIGradient", {
+                        Rotation = 90;
+                        Parent = hue_drag;
+                        Color = rgbseq{rgbkey(0, rgb(255, 0, 0)), rgbkey(0.17, rgb(255, 255, 0)), rgbkey(0.33, rgb(0, 255, 0)), rgbkey(0.5, rgb(0, 255, 255)), rgbkey(0.67, rgb(0, 0, 255)), rgbkey(0.83, rgb(255, 0, 255)), rgbkey(1, rgb(255, 0, 0))}
+                    });
                     
                     local hue_picker = library:create("Frame", {
                         Parent = hue_drag;
@@ -1812,6 +1829,10 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    library:create("UIGradient", {
+                        Parent = alphaind;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
+                    });
                     
                     local alpha_picker = library:create("Frame", {
                         Parent = alpha_color;
@@ -1851,6 +1872,10 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    library:create("UIGradient", {
+                        Parent = val;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
+                    });
                     
                     local saturation_value_picker = library:create("Frame", {
                         Parent = colorpicker_color;
@@ -1880,6 +1905,12 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    library:create("UIGradient", {
+                        Rotation = 270;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)};
+                        Parent = saturation_button;
+                        Color = rgbseq{rgbkey(0, rgb(0, 0, 0)), rgbkey(1, rgb(0, 0, 0))}
+                    });
                     
                     
                 -- 
