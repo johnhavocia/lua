@@ -492,6 +492,14 @@ local config_flags = library.config_flags
         library:apply_theme(STROKE, "text_outline", "Color")
     end
 
+    -- helper to add subtle rounding for a more modern look
+    function library:corner(parent, radius)
+        return library:create("UICorner", {
+            Parent = parent,
+            CornerRadius = dim(0, radius or 4),
+        })
+    end
+
     function library:create(instance, options)
         local ins = Instance.new(instance) 
         
@@ -553,18 +561,21 @@ local config_flags = library.config_flags
             window_outline.Position = dim2(0, window_outline.AbsolutePosition.Y, 0, window_outline.AbsolutePosition.Y)
             cfg.main_outline = window_outline
 
+            -- rounded main window for a softer, modern look
+            library:corner(window_outline, 8)
+
             library:resizify(window_outline)
             library:draggify(window_outline)
             
             local title_holder = library:create("Frame", {
                 Parent = window_outline;
-                BackgroundTransparency = 0.800000011920929;
+                BackgroundTransparency = 0;
                 Position = dim2(0, 2, 0, 2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
-            });
+                BackgroundColor3 = themes.preset.inline
+            }); library:apply_theme(title_holder, "inline", "BackgroundColor3")
             
             local ui_title = library:create("TextLabel", {
                 FontFace = fonts["TahomaBold"];
@@ -585,13 +596,13 @@ local config_flags = library.config_flags
             local tab_button_holder = library:create("Frame", {
                 AnchorPoint = vec2(0, 1);
                 Parent = window_outline;
-                BackgroundTransparency = 0.800000011920929;
+                BackgroundTransparency = 0;
                 Position = dim2(0, 2, 1, -2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
-            }); cfg.tab_button_holder = tab_button_holder
+                BackgroundColor3 = themes.preset.inline
+            }); library:apply_theme(tab_button_holder, "inline", "BackgroundColor3"); cfg.tab_button_holder = tab_button_holder
             
             library:create("UIListLayout", {
                 VerticalAlignment = Enum.VerticalAlignment.Center;
@@ -636,14 +647,14 @@ local config_flags = library.config_flags
             -- Page
                 local Page = library:create("Frame", {
                     Parent = self.main_outline;
-                    BackgroundTransparency = 0.6;
+                    BackgroundTransparency = 0;
                     Position = dim2(0, 2, 0, 24);
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -4, 1, -48);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(0, 0, 0),
+                    BackgroundColor3 = themes.preset.inline,
                     Visible = false,
-                }); cfg.page = Page
+                }); cfg.page = Page; library:apply_theme(Page, "inline", "BackgroundColor3"); library:corner(Page, 6)
                 
                 library:create("UIListLayout", {
                     FillDirection = Enum.FillDirection.Horizontal;
@@ -746,13 +757,13 @@ local config_flags = library.config_flags
             
             local dark = library:create("Frame", {
                 Parent = outline;
-                BackgroundTransparency = 1;
+                BackgroundTransparency = 0.2;
                 Position = dim2(0, 2, 0, 2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 1, -4);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
-            });
+                BackgroundColor3 = themes.preset.inline
+            }); library:apply_theme(dark, "inline", "BackgroundColor3"); library:corner(outline, 6)
 
             library:create("UIPadding", {
                 PaddingTop = dim(0, 7);
@@ -822,13 +833,13 @@ local config_flags = library.config_flags
             
             local dark = library:create("Frame", {
                 Parent = outline;
-                BackgroundTransparency = 0.6;
+                BackgroundTransparency = 0.2;
                 Position = dim2(0, 2, 0, 2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 1, -4);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
-            });
+                BackgroundColor3 = themes.preset.inline
+            }); library:apply_theme(dark, "inline", "BackgroundColor3"); library:corner(outline, 6)
 
             library:create("UIPadding", {
                 PaddingTop = dim(0, 7);
@@ -941,17 +952,17 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                 BorderColor3 = rgb(0, 0, 0);
                 BorderSizePixel = 0;
                 BackgroundColor3 = themes.preset[tostring(self.count)]
-            }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3");
+            }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3"); library:corner(accent, 6)
 
             local dark = library:create("Frame", {
                 Parent = accent;
-                BackgroundTransparency = 0.6;
+                BackgroundTransparency = 0;
                 Position = dim2(0, 2, 0, 16);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 1, -18);
                 BorderSizePixel = 0;
-                BackgroundColor3 = rgb(0, 0, 0)
-            });
+                BackgroundColor3 = themes.preset.inline
+            }); library:apply_theme(dark, "inline", "BackgroundColor3")
             
             local elements = library:create("Frame", {
                 Parent = dark;
