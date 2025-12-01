@@ -1,6 +1,6 @@
 local Library = {}; do
     Library = {
-        Accent = Color3.fromRGB(106, 191, 247);
+        Accent = Color3.fromRGB(146, 135, 204);
         Inline = Color3.fromRGB(21,21,21);
         Background = Color3.fromRGB(15,15,15);
         Text = Color3.fromRGB(255,255,255);
