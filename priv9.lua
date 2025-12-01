@@ -90,9 +90,9 @@ local themes = {
         text_outline = rgb(0, 0, 0),
         background   = rgb(10, 10, 12),   -- main background (almost black)
         -- single purple accent reused everywhere (tabs, sections, toggles, sliders)
-        ["1"] = hex("#8B5CF6"),
-        ["2"] = hex("#8B5CF6"),
-        ["3"] = hex("#8B5CF6"),
+        ["1"] = hex("#C227F5"),
+        ["2"] = hex("#C227F5"),
+        ["3"] = hex("#C227F5"),
     },
 
     utility = {
