@@ -1185,8 +1185,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     Size = dim2(1, 0, 0, cfg.scale);
                     BorderSizePixel = 0;
                     AutomaticSize = Enum.AutomaticSize.Y;
-                    BackgroundColor3 = themes.preset[tostring(self.count)]
-                }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3")
+                    -- neutral dark container, gradient inside
+                    BackgroundColor3 = rgb(24, 24, 24)
+                }); library:corner(accent, 4)
                 
                 local inline = library:create("Frame", {
                     Parent = accent;
@@ -1194,8 +1195,18 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -2, 1, -2);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = rgb(35, 35, 35)
+                    BackgroundColor3 = themes.preset.inline
                 }); library:apply_theme(inline, "inline", "BackgroundColor3")
+
+                -- vertical purple gradient for list container (used by config list etc.)
+                local list_gradient = library:create("UIGradient", {
+                    Parent = inline;
+                    Rotation = 90;
+                    Color = rgbseq{
+                        rgbkey(0, themes.preset["1"]),
+                        rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
+                    };
+                });
                 
                 local scrollingframe = library:create("ScrollingFrame", {
                     ScrollBarImageColor3 = rgb(0, 0, 0);
@@ -1476,8 +1487,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(0.5, 0, 0, 16);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = themes.preset[tostring(self.count)]
-                    }); library:apply_theme(dropdown_holder, tostring(self.count), "BackgroundColor3")
+                        -- neutral dark outline like buttons/sliders
+                        BackgroundColor3 = rgb(24, 24, 24)
+                    }); library:corner(dropdown_holder, 4)
                     
                     local inline = library:create("Frame", {
                         Parent = dropdown_holder;
@@ -1485,10 +1497,10 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = rgb(35, 35, 35)
+                        BackgroundColor3 = themes.preset.inline
                     });
 
-                    -- vertical purple gradient on dropdown control
+                    -- vertical purple gradient on dropdown control (top to bottom)
                     local dropdown_gradient = library:create("UIGradient", {
                         Parent = inline;
                         Rotation = 90;
@@ -1539,8 +1551,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderSizePixel = 0;
                         Visible = false;
                         AutomaticSize = Enum.AutomaticSize.Y;
-                        BackgroundColor3 = themes.preset[tostring(self.count)]
-                    });	library:apply_theme(accent, tostring(self.count), "BackgroundColor3")
+                        -- neutral dark holder, gradient supplies the purple
+                        BackgroundColor3 = rgb(24, 24, 24)
+                    });
 
                     local inline = library:create("Frame", {
                         Parent = accent;
