@@ -1081,8 +1081,17 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
-                        -- fill uses accent color when enabled, inline when disabled (handled in cfg.set)
+                        -- base color is inline; gradient is shown only when enabled
                         BackgroundColor3 = themes.preset.inline
+                    });
+
+                    local fill_gradient = library:create("UIGradient", {
+                        Parent = fill;
+                        Color = rgbseq{
+                            rgbkey(0, themes.preset["1"]:Lerp(color(0, 0, 0), 0.25)),
+                            rgbkey(1, themes.preset["1"]:Lerp(color(1, 1, 1), 0.1)),
+                        };
+                        Transparency = numseq{numkey(0, 1), numkey(1, 1)} -- hidden by default
                     });
 
                     library:create("UIListLayout", {
@@ -1122,6 +1131,13 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
             -- Functions
                 function cfg.set(bool)                        
                     fill.BackgroundColor3 = bool and themes.preset["1"] or themes.preset.inline
+
+                    -- toggle gradient visibility with state
+                    if bool then
+                        fill_gradient.Transparency = numseq{numkey(0, 0), numkey(1, 0)}
+                    else
+                        fill_gradient.Transparency = numseq{numkey(0, 1), numkey(1, 1)}
+                    end
 
                     flags[cfg.flag] = bool
 
@@ -1361,6 +1377,15 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BorderSizePixel = 0;
                     BackgroundColor3 = themes.preset["1"]
                 }); library:corner(accent, 4)
+
+                -- subtle purple gradient across the slider fill
+                local slider_gradient = library:create("UIGradient", {
+                    Parent = accent;
+                    Color = rgbseq{
+                        rgbkey(0, themes.preset["1"]:Lerp(color(0, 0, 0), 0.25)),
+                        rgbkey(1, themes.preset["1"]:Lerp(color(1, 1, 1), 0.1)),
+                    };
+                });
             -- 
             
             -- Functions 
@@ -2471,6 +2496,15 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BorderSizePixel = 0;
                     BackgroundColor3 = themes.preset.inline
                 }); library:apply_theme(frame_inline, "inline", "BackgroundColor3")
+
+                -- subtle purple gradient on button background
+                local button_gradient = library:create("UIGradient", {
+                    Parent = frame_inline;
+                    Color = rgbseq{
+                        rgbkey(0, themes.preset["1"]:Lerp(color(0, 0, 0), 0.25)),
+                        rgbkey(1, themes.preset["1"]:Lerp(color(1, 1, 1), 0.1)),
+                    };
+                });
                 
                 local text = library:create("TextLabel", {
                     FontFace = fonts["ProggyClean"];
