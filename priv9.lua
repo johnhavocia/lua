@@ -1087,6 +1087,7 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
 
                     local fill_gradient = library:create("UIGradient", {
                         Parent = fill;
+                        Rotation = 90;
                         Color = rgbseq{
                             rgbkey(0, themes.preset["1"]),
                             rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
@@ -1375,9 +1376,10 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BackgroundColor3 = themes.preset["1"]
                 }); library:corner(accent, 4)
 
-                -- obvious purple gradient across the slider fill
+                -- obvious purple gradient across the slider fill (top to bottom)
                 local slider_gradient = library:create("UIGradient", {
                     Parent = accent;
+                    Rotation = 90;
                     Color = rgbseq{
                         rgbkey(0, themes.preset["1"]),
                         rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
@@ -1485,6 +1487,16 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderSizePixel = 0;
                         BackgroundColor3 = rgb(35, 35, 35)
                     });
+
+                    -- vertical purple gradient on dropdown control
+                    local dropdown_gradient = library:create("UIGradient", {
+                        Parent = inline;
+                        Rotation = 90;
+                        Color = rgbseq{
+                            rgbkey(0, themes.preset["1"]),
+                            rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
+                        };
+                    });
                     
                     local text = library:create("TextLabel", {
                         FontFace = fonts["ProggyClean"];
@@ -1539,6 +1551,16 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         AutomaticSize = Enum.AutomaticSize.Y;
                         BackgroundColor3 = themes.preset.inline
                     });	library:apply_theme(inline, "inline", "BackgroundColor3")
+
+                    -- vertical purple gradient on dropdown list holder
+                    local dropdown_list_gradient = library:create("UIGradient", {
+                        Parent = accent;
+                        Rotation = 90;
+                        Color = rgbseq{
+                            rgbkey(0, themes.preset["1"]),
+                            rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
+                        };
+                    });
 
                     library:create("UIListLayout", {
                         Parent = inline;
@@ -2494,9 +2516,10 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BackgroundColor3 = themes.preset.inline
                 }); library:apply_theme(frame_inline, "inline", "BackgroundColor3")
 
-                -- obvious purple gradient on button background
+                -- obvious purple gradient on button background (top to bottom)
                 local button_gradient = library:create("UIGradient", {
                     Parent = frame_inline;
+                    Rotation = 90;
                     Color = rgbseq{
                         rgbkey(0, themes.preset["1"]),
                         rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
