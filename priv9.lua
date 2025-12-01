@@ -1393,7 +1393,7 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     Rotation = 90;
                     Color = rgbseq{
                         rgbkey(0, themes.preset["1"]),
-                        rgbkey(1, themes.preset["1"]:Lerp(color(0, 0, 0), 0.6)),
+                        rgbkey(1, #32103D),
                     };
                 });
             -- 
