@@ -1071,8 +1071,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(0, 12, 0, 12);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = themes.preset[tostring(self.count)]
-                    }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3");    
+                        -- neutral dark outline instead of purple accent
+                        BackgroundColor3 = rgb(24, 24, 24)
+                    }); library:corner(accent, 4)
                     
                     local fill = library:create("Frame", {
                         Parent = accent;
@@ -1080,8 +1081,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
-                        BackgroundColor3 = themes.preset[tostring(self.count)]
-                    }); library:apply_theme(fill, tostring(self.count), "BackgroundColor3");                
+                        -- fill uses accent color when enabled, inline when disabled (handled in cfg.set)
+                        BackgroundColor3 = themes.preset.inline
+                    });
 
                     library:create("UIListLayout", {
                         FillDirection = Enum.FillDirection.Horizontal;
@@ -1119,7 +1121,7 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                 
             -- Functions
                 function cfg.set(bool)                        
-                    fill.BackgroundColor3 = bool and themes.preset[tostring(self.count)] or themes.preset.inline
+                    fill.BackgroundColor3 = bool and themes.preset["1"] or themes.preset.inline
 
                     flags[cfg.flag] = bool
 
@@ -1339,8 +1341,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, 0, 0, 12);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = themes.preset[tostring(self.count)]
-                }); library:apply_theme(outline, tostring(self.count), "BackgroundColor3")
+                    -- neutral dark track instead of purple accent
+                    BackgroundColor3 = rgb(24, 24, 24)
+                }); library:corner(outline, 4)
                 
                 local inline = library:create("Frame", {
                     Parent = outline;
@@ -1349,15 +1352,15 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     Size = dim2(1, -2, 1, -2);
                     BorderSizePixel = 0;
                     BackgroundColor3 = themes.preset.inline
-                }); library:apply_theme(outline, "inline", "BackgroundColor3")
+                });
                 
                 local accent = library:create("Frame", {
                     Parent = inline;
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(0.5, 0, 1, 0);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = themes.preset[tostring(self.count)]
-                }); library:apply_theme(accent, tostring(self.count), "BackgroundColor3")
+                    BackgroundColor3 = themes.preset["1"]
+                }); library:corner(accent, 4)
             -- 
             
             -- Functions 
@@ -2456,8 +2459,9 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, 0, 0, 16);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = themes.preset[tostring(self.count)]
-                }); library:apply_theme(frame, tostring(self.count), "BackgroundColor3")
+                    -- neutral dark button outline instead of purple accent
+                    BackgroundColor3 = rgb(24, 24, 24)
+                }); library:corner(frame, 4)
                 
                 local frame_inline = library:create("Frame", {
                     Parent = frame;
