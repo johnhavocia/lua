@@ -83,16 +83,16 @@ getgenv().library = {
 
 local themes = {
     preset = {
-        -- modern flat dark theme with a single accent color
-        outline = rgb(24, 24, 30),
-        inline = rgb(32, 34, 44),
-        text = rgb(225, 227, 232),
+        -- dark theme with a single purple accent used everywhere
+        outline = rgb(14, 10, 26),
+        inline = rgb(24, 20, 38),
+        text = rgb(230, 230, 240),
         text_outline = rgb(0, 0, 0),
-        background = rgb(16, 16, 22),
-        -- use one accent color for all "gradient" slots so they render as a solid color
-        ["1"] = hex("#5865F2"), -- accent
-        ["2"] = hex("#5865F2"),
-        ["3"] = hex("#5865F2"),
+        background = rgb(8, 6, 16),
+        -- single accent for all accent slots (sections, toggles, etc.)
+        ["1"] = hex("#A855F7"), -- purple accent
+        ["2"] = hex("#A855F7"),
+        ["3"] = hex("#A855F7"),
     },
 
     utility = {
@@ -1793,8 +1793,22 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
-                        -- flat background; hue will still be changed via the picker indicator
                         BackgroundColor3 = rgb(255, 255, 255)
+                    });
+                    
+                    -- rainbow gradient only inside the picker, for usability
+                    library:create("UIGradient", {
+                        Rotation = 90;
+                        Parent = hue_drag;
+                        Color = rgbseq{
+                            rgbkey(0,   rgb(255, 0, 0)),
+                            rgbkey(0.17,rgb(255, 255, 0)),
+                            rgbkey(0.33,rgb(0, 255, 0)),
+                            rgbkey(0.5, rgb(0, 255, 255)),
+                            rgbkey(0.67,rgb(0, 0, 255)),
+                            rgbkey(0.83,rgb(255, 0, 255)),
+                            rgbkey(1,   rgb(255, 0, 0)),
+                        }
                     });
                     
                     local hue_picker = library:create("Frame", {
@@ -1839,6 +1853,12 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    -- alpha checker gradient inside the control only
+                    library:create("UIGradient", {
+                        Parent = alphaind;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
+                    });
+                    
                     local alpha_picker = library:create("Frame", {
                         Parent = alpha_color;
                         BorderMode = Enum.BorderMode.Inset;
@@ -1877,6 +1897,12 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    -- brightness overlay inside SV area only
+                    library:create("UIGradient", {
+                        Parent = val;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
+                    });
+                    
                     local saturation_value_picker = library:create("Frame", {
                         Parent = colorpicker_color;
                         BorderColor3 = rgb(0, 0, 0);
@@ -1905,6 +1931,13 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
+                    -- saturation overlay inside SV area only
+                    library:create("UIGradient", {
+                        Rotation = 270;
+                        Transparency = numseq{numkey(0, 0), numkey(1, 1)};
+                        Parent = saturation_button;
+                        Color = rgbseq{rgbkey(0, rgb(0, 0, 0)), rgbkey(1, rgb(0, 0, 0))}
+                    });
                     
                 -- 
             -- 
@@ -2471,15 +2504,13 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
 
             local section = main:column({}):section({name = "Other", size = 1, default = true})
             section:keybind({name = "Menu bind", callback = function(bool) window.toggle_menu(bool) end, default = true})
-            section:colorpicker({name = "Accent 1", callback = function(color)                    
+
+            -- single accent control: updates all three accent slots so the entire UI shares one purple accent
+            section:colorpicker({name = "Accent", callback = function(color)
                 library:update_theme("1", color)
-            end, color = themes.preset["1"]})
-            section:colorpicker({name = "Accent 2", callback = function(color)
                 library:update_theme("2", color)
-            end, color = themes.preset["2"]})
-            section:colorpicker({name = "Accent 3", callback = function(color)
                 library:update_theme("3", color)
-            end, color = themes.preset["3"]})
+            end, color = themes.preset["1"]})
 
             main:column({})
         end
