@@ -83,16 +83,16 @@ getgenv().library = {
 
 local themes = {
     preset = {
-        -- Dark theme with a modern purple accent
-        outline = rgb(15, 15, 20),
-        inline = rgb(25, 25, 35),
-        text = rgb(220, 220, 230),
+        -- modern flat dark theme with a single accent color
+        outline = rgb(24, 24, 30),
+        inline = rgb(32, 34, 44),
+        text = rgb(225, 227, 232),
         text_outline = rgb(0, 0, 0),
-        background = rgb(10, 10, 15),
-        -- Use a single accent color so all gradients render as a solid color
-        ["1"] = hex("#9b5cff"), 
-        ["2"] = hex("#9b5cff"),
-        ["3"] = hex("#9b5cff"),
+        background = rgb(16, 16, 22),
+        -- use one accent color for all "gradient" slots so they render as a solid color
+        ["1"] = hex("#5865F2"), -- accent
+        ["2"] = hex("#5865F2"),
+        ["3"] = hex("#5865F2"),
     },
 
     utility = {
@@ -548,7 +548,7 @@ local config_flags = library.config_flags
                 BorderColor3 = rgb(0, 0, 0);
                 Size = cfg.size;
                 BorderSizePixel = 0;
-                BackgroundColor3 = themes.preset.background
+                BackgroundColor3 = rgb(255, 255, 255)
             });
             window_outline.Position = dim2(0, window_outline.AbsolutePosition.Y, 0, window_outline.AbsolutePosition.Y)
             cfg.main_outline = window_outline
@@ -558,12 +558,12 @@ local config_flags = library.config_flags
             
             local title_holder = library:create("Frame", {
                 Parent = window_outline;
-                BackgroundTransparency = 0.1;
+                BackgroundTransparency = 0.800000011920929;
                 Position = dim2(0, 2, 0, 2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = themes.preset.inline
+                BackgroundColor3 = rgb(0, 0, 0)
             });
             
             local ui_title = library:create("TextLabel", {
@@ -579,24 +579,19 @@ local config_flags = library.config_flags
                 BackgroundColor3 = rgb(255, 255, 255)
             });
             
-            library.gradient = library:create("UIGradient", {
-                Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
-                Parent = window_outline
-            });
+            -- solid-color main window background using theme background
+            window_outline.BackgroundColor3 = themes.preset.background
+            library:apply_theme(window_outline, "background", "BackgroundColor3")
             
             local tab_button_holder = library:create("Frame", {
                 AnchorPoint = vec2(0, 1);
                 Parent = window_outline;
-                BackgroundTransparency = 0.1;
+                BackgroundTransparency = 0.800000011920929;
                 Position = dim2(0, 2, 1, -2);
                 BorderColor3 = rgb(0, 0, 0);
                 Size = dim2(1, -4, 0, 20);
                 BorderSizePixel = 0;
-                BackgroundColor3 = themes.preset.inline
+                BackgroundColor3 = rgb(0, 0, 0)
             }); cfg.tab_button_holder = tab_button_holder
             
             library:create("UIListLayout", {
@@ -642,12 +637,12 @@ local config_flags = library.config_flags
             -- Page
                 local Page = library:create("Frame", {
                     Parent = self.main_outline;
-                    BackgroundTransparency = 0.1;
+                    BackgroundTransparency = 0.6;
                     Position = dim2(0, 2, 0, 24);
                     BorderColor3 = rgb(0, 0, 0);
                     Size = dim2(1, -4, 1, -48);
                     BorderSizePixel = 0;
-                    BackgroundColor3 = themes.preset.inline,
+                    BackgroundColor3 = rgb(0, 0, 0),
                     Visible = false,
                 }); cfg.page = Page
                 
@@ -747,7 +742,7 @@ local config_flags = library.config_flags
                 Size = dim2(0, 0, 0, 24);
                 BorderSizePixel = 0;
                 AutomaticSize = Enum.AutomaticSize.X;
-                BackgroundColor3 = themes.preset.outline
+                BackgroundColor3 = rgb(255, 255, 255)
             });
             
             local dark = library:create("Frame", {
@@ -784,6 +779,9 @@ local config_flags = library.config_flags
                 BackgroundColor3 = rgb(255, 255, 255)
             }); 
             
+            -- flat notification outline (no gradient)
+            outline.BackgroundColor3 = themes.preset["1"]
+            library:apply_theme(outline, "1", "BackgroundColor3")
         -- 
         
         local index = #notifications.notifs + 1
@@ -820,7 +818,7 @@ local config_flags = library.config_flags
                 Size = dim2(0, 0, 0, 24);
                 BorderSizePixel = 0;
                 AutomaticSize = Enum.AutomaticSize.X;
-                BackgroundColor3 = themes.preset.outline
+                BackgroundColor3 = rgb(255, 255, 255)
             }); library.watermark_outline = outline; library:draggify(outline);
             
             local dark = library:create("Frame", {
@@ -857,6 +855,9 @@ local config_flags = library.config_flags
                 BackgroundColor3 = rgb(255, 255, 255)
             }); 
             
+            -- flat watermark outline using accent color instead of gradient
+            outline.BackgroundColor3 = themes.preset["1"]
+            library:apply_theme(outline, "1", "BackgroundColor3")
         --
 
         function cfg.update_text(text)
@@ -895,7 +896,11 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
     function library:column(properties)
         self.count += 1
 
-        local cfg = {color = library.gradient.Color.Keypoints[self.count].Value, count = self.count} 
+        local cfg = {
+            count = self.count,
+            -- column accent color is taken directly from the theme preset
+            color = themes.preset[tostring(self.count)] or themes.preset["1"],
+        }
 
         local scrolling_frame = library:create("ScrollingFrame", {
             ScrollBarImageColor3 = rgb(0, 0, 0);
@@ -1778,13 +1783,8 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BorderColor3 = rgb(0, 0, 0);
                         Size = dim2(1, -2, 1, -2);
                         BorderSizePixel = 0;
+                        -- flat background; hue will still be changed via the picker indicator
                         BackgroundColor3 = rgb(255, 255, 255)
-                    });
-                    
-                    library:create("UIGradient", {
-                        Rotation = 90;
-                        Parent = hue_drag;
-                        Color = rgbseq{rgbkey(0, rgb(255, 0, 0)), rgbkey(0.17, rgb(255, 255, 0)), rgbkey(0.33, rgb(0, 255, 0)), rgbkey(0.5, rgb(0, 255, 255)), rgbkey(0.67, rgb(0, 0, 255)), rgbkey(0.83, rgb(255, 0, 255)), rgbkey(1, rgb(255, 0, 0))}
                     });
                     
                     local hue_picker = library:create("Frame", {
@@ -1829,11 +1829,6 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
-                    library:create("UIGradient", {
-                        Parent = alphaind;
-                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
-                    });
-                    
                     local alpha_picker = library:create("Frame", {
                         Parent = alpha_color;
                         BorderMode = Enum.BorderMode.Inset;
@@ -1872,11 +1867,6 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         BackgroundColor3 = rgb(255, 255, 255)
                     });
                     
-                    library:create("UIGradient", {
-                        Parent = val;
-                        Transparency = numseq{numkey(0, 0), numkey(1, 1)}
-                    });
-                    
                     local saturation_value_picker = library:create("Frame", {
                         Parent = colorpicker_color;
                         BorderColor3 = rgb(0, 0, 0);
@@ -1903,13 +1893,6 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
                         ZIndex = 2;
                         BorderSizePixel = 0;
                         BackgroundColor3 = rgb(255, 255, 255)
-                    });
-                    
-                    library:create("UIGradient", {
-                        Rotation = 270;
-                        Transparency = numseq{numkey(0, 0), numkey(1, 1)};
-                        Parent = saturation_button;
-                        Color = rgbseq{rgbkey(0, rgb(0, 0, 0)), rgbkey(1, rgb(0, 0, 0))}
                     });
                     
                     
@@ -2478,50 +2461,14 @@ fpsLabel.Text = "FPS: " .. tostring(math.floor(realFPS))
 
             local section = main:column({}):section({name = "Other", size = 1, default = true})
             section:keybind({name = "Menu bind", callback = function(bool) window.toggle_menu(bool) end, default = true})
-            section:colorpicker({name = "Gradient 1", callback = function(color)                    
+            section:colorpicker({name = "Accent 1", callback = function(color)                    
                 library:update_theme("1", color)
-
-                library.gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
-
-                library.watermark_gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
             end, color = themes.preset["1"]})
-            section:colorpicker({name = "Gradient 2", callback = function(color)
+            section:colorpicker({name = "Accent 2", callback = function(color)
                 library:update_theme("2", color)
-
-                library.gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
-
-                library.watermark_gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
             end, color = themes.preset["2"]})
-            section:colorpicker({name = "Gradient 3", callback = function(color)
+            section:colorpicker({name = "Accent 3", callback = function(color)
                 library:update_theme("3", color)
-
-                library.gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
-
-                library.watermark_gradient.Color = rgbseq{
-                    rgbkey(0, themes.preset["1"]), 
-                    rgbkey(0.5, themes.preset["2"]),
-                    rgbkey(1, themes.preset["3"]),
-                };
             end, color = themes.preset["3"]})
 
             main:column({})
